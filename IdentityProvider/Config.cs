@@ -9,7 +9,9 @@ namespace IdentityProvider
             {
             new IdentityResources.OpenId()
             };
-
+        public static IEnumerable<ApiResource> ApiResources => 
+            new ApiResource[]
+                { };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
                 { };
