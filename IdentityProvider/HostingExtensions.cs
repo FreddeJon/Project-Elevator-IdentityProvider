@@ -1,5 +1,6 @@
 using Azure.Identity;
 using IdentityProvider.Data;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,17 @@ namespace IdentityProvider
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
-            builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["KeyVault:RootUri"]), new DefaultAzureCredential());
+            var credential = new DefaultAzureCredential();
+            builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["KeyVault:RootUri"]), credential);
 
             var connectionString = builder.Configuration["IdentityServerSqlConnectionString"] ?? throw new ArgumentNullException();
+            var licenceKey = builder.Configuration["IdentityServerKey"] ?? throw new ArgumentNullException();
+
+            builder.Services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(new Uri(builder.Configuration["DataProtection:Keys"]), credential)
+                .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]),
+                    credential);
+
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -28,7 +37,7 @@ namespace IdentityProvider
                 {
                     // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
                     options.EmitStaticAudienceClaim = true;
-                    options.LicenseKey = builder.Configuration["IdentityServerKey"];
+                    options.LicenseKey = licenceKey;
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
