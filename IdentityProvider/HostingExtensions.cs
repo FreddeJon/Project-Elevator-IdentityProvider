@@ -73,6 +73,9 @@ namespace IdentityProvider
 
             app.UseSerilogRequestLogging();
 
+            app.UseDeveloperExceptionPage();
+
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
