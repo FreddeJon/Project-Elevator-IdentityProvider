@@ -1,3 +1,8 @@
+using Azure.Identity;
+using IdentityProvider.Data;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace IdentityProvider
@@ -6,6 +11,16 @@ namespace IdentityProvider
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
+            builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["KeyVault:RootUri"]), new DefaultAzureCredential());
+
+            var connectionString = builder.Configuration["IdentityServerSqlConnectionString"] ?? throw new ArgumentNullException();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddRazorPages();
 
@@ -16,13 +31,25 @@ namespace IdentityProvider
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryApiResources(Config.ApiResources)
+                .AddInMemoryClients(Config.Clients)
+                .AddAspNetIdentity<IdentityUser>();
+
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                                           | ForwardedHeaders.XForwardedProto;
+            });
+
 
             return builder.Build();
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
+
+            app.UseForwardedHeaders();
+
             app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
