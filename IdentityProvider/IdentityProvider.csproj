@@ -10,6 +10,7 @@
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.2.3" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.1.0" />
     <PackageReference Include="Azure.Identity" Version="1.7.0" />
+    <PackageReference Include="Azure.Security.KeyVault.Certificates" Version="4.4.0" />
     <PackageReference Include="Duende.IdentityServer" Version="6.1.7" />
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />

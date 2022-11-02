@@ -1,4 +1,7 @@
+using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
+using Azure.Security.KeyVault.Certificates;
+using Azure.Security.KeyVault.Secrets;
 using IdentityProvider.Data;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -23,6 +26,13 @@ namespace IdentityProvider
                 .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]),
                     credential);
 
+            var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), credential);
+            var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
+
+            var signingCertificate = new X509Certificate2(
+                Convert.FromBase64String(secretResponse.Value.Value),
+                (string) null,
+                X509KeyStorageFlags.MachineKeySet);
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -43,7 +53,8 @@ namespace IdentityProvider
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<IdentityUser>();
+                .AddAspNetIdentity<IdentityUser>()
+                .AddSigningCredential(signingCertificate);
 
             builder.Services.Configure<ForwardedHeadersOptions>(options =>
             {
