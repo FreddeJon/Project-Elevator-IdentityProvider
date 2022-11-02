@@ -30,7 +30,7 @@ namespace IdentityProvider
             var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
 
             var signingCertificate = new X509Certificate2(
-                Convert.FromBase64String(secretResponse.Value.Value));
+                Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.EphemeralKeySet);
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -78,7 +78,7 @@ namespace IdentityProvider
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseStaticFiles();
             app.UseRouting();
 
