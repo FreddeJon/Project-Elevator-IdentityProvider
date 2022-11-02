@@ -28,6 +28,7 @@ namespace IdentityProvider
                 {
                     // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
                     options.EmitStaticAudienceClaim = true;
+                    options.LicenseKey = builder.Configuration["IdentityServerKey"];
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
