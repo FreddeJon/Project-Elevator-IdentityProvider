@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
 
-namespace IdentityServerHost.Pages.Diagnostics;
+namespace IdentityProvider.Pages.Diagnostics;
 
 [SecurityHeaders]
 [Authorize]

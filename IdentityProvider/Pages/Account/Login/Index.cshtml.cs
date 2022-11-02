@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerHost.Pages.Login;
+namespace IdentityProvider.Pages.Account.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]

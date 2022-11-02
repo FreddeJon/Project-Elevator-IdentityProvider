@@ -1,4 +1,4 @@
-namespace IdentityServerHost.Pages.Device;
+namespace IdentityProvider.Pages.Device;
 
 public class ViewModel
 {

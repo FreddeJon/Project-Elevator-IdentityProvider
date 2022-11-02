@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityServerHost.Pages.Consent;
+namespace IdentityProvider.Pages.Consent;
 
 [Authorize]
-[SecurityHeadersAttribute]
+[SecurityHeaders]
 public class Index : PageModel
 {
     private readonly IIdentityServerInteractionService _interaction;
