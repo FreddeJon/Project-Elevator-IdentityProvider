@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Serilog;
 
 namespace IdentityProvider
@@ -6,6 +7,9 @@ namespace IdentityProvider
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
+            builder.Configuration.AddAzureKeyVault(new Uri(builder.Configuration["KeyVault:RootUri"]), new DefaultAzureCredential());
+
+            var connectionString = builder.Configuration["IdentityServerSqlConnectionString"] ?? throw new ArgumentNullException();
 
             builder.Services.AddRazorPages();
 
