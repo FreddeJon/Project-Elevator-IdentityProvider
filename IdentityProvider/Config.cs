@@ -66,6 +66,31 @@ namespace IdentityProvider
                     new Secret("secret".Sha256())
                 },
                 RequireConsent = false
+            },
+            new Client
+            {
+                ClientName = "MobileApp Client",
+                ClientId = "mobileappclient",
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowOfflineAccess = true,
+                UpdateAccessTokenClaimsOnRefresh = true,
+                RedirectUris =
+                {
+                    "myapp://callback",
+                    "myapp://signin-oidc"
+                },
+                PostLogoutRedirectUris =
+                {
+                    "myapp://callback",
+                    "myapp://signout-callback-oidc"
+                },
+
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "roles"
+                },
             }
             };
     }
