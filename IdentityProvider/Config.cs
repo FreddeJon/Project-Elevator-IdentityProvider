@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace IdentityProvider
 {
@@ -22,7 +23,8 @@ namespace IdentityProvider
                 "projectelevatorapi.fullaccess",
                 "projectelevatorapi.write",
                 "projectelevatorapi.read"
-            }
+            },
+            ApiSecrets = {new Secret("2438a004-d396-4e1b-8ff4-30397a02e51d".ToSha256()) }
         }
         };
 
@@ -39,7 +41,7 @@ namespace IdentityProvider
             {
             new Client
             {
-                ClientName = "Localhost AdminWebApp Client",
+                ClientName = "AdminWebApp Client",
                 ClientId = "adminwebappclient",
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
@@ -51,6 +53,36 @@ namespace IdentityProvider
                 PostLogoutRedirectUris =
                 {
                     "https://localhost:7196/signout-callback-oidc"
+                },
+
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "roles",
+                    "projectelevatorapi.read",
+                    "projectelevatorapi.write",
+                },
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                RequireConsent = false
+            },
+            new Client
+            {
+                ClientName = "AdminWebApp Client",
+                ClientId = "adminwebappclient",
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowOfflineAccess = true,
+                UpdateAccessTokenClaimsOnRefresh = true,
+                RedirectUris =
+                {
+                    "https://project-elevator.azurewebsites.net/signin-oidc"
+                },
+                PostLogoutRedirectUris =
+                {
+                    "https://project-elevator.azurewebsites.net/signout-callback-oidc"
                 },
 
                 AllowedScopes =
@@ -92,6 +124,7 @@ namespace IdentityProvider
                     "roles"
                 },
             }
+
             };
     }
 }
