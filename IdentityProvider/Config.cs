@@ -39,7 +39,7 @@ namespace IdentityProvider
             {
             new Client
             {
-                ClientName = "Localhost AdminWebApp Client",
+                ClientName = "AdminWebApp Client",
                 ClientId = "adminwebappclient",
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
@@ -51,6 +51,36 @@ namespace IdentityProvider
                 PostLogoutRedirectUris =
                 {
                     "https://localhost:7196/signout-callback-oidc"
+                },
+
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "roles",
+                    "projectelevatorapi.read",
+                    "projectelevatorapi.write",
+                },
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                RequireConsent = false
+            },
+            new Client
+            {
+                ClientName = "AdminWebApp Client",
+                ClientId = "adminwebappclient",
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowOfflineAccess = true,
+                UpdateAccessTokenClaimsOnRefresh = true,
+                RedirectUris =
+                {
+                    "https://project-elevator.azurewebsites.net/signin-oidc"
+                },
+                PostLogoutRedirectUris =
+                {
+                    "https://project-elevator.azurewebsites.net/signout-callback-oidc"
                 },
 
                 AllowedScopes =
