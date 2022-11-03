@@ -29,6 +29,8 @@ namespace IdentityProvider
             var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), credential);
             var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
 
+            Log.Logger.Error(secretResponse.Value.Value);
+
             var signingCertificate = new X509Certificate2(
                 Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.EphemeralKeySet);
 
