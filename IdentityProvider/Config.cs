@@ -71,6 +71,7 @@ namespace IdentityProvider
             },
             new Client
             {
+
                 ClientName = "AdminWebApp Client",
                 ClientId = "adminwebappclient",
                 AllowedGrantTypes = GrantTypes.Code,
@@ -108,21 +109,22 @@ namespace IdentityProvider
                 UpdateAccessTokenClaimsOnRefresh = true,
                 RedirectUris =
                 {
-                    "myapp://callback",
-                    "myapp://signin-oidc"
+                    "myapp://"
                 },
                 PostLogoutRedirectUris =
                 {
-                    "myapp://callback",
-                    "myapp://signout-callback-oidc"
+                    "myapp://"
                 },
-
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     "roles"
                 },
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                }
             }
 
             };
