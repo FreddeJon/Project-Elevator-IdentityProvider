@@ -109,11 +109,11 @@ namespace IdentityProvider
                 UpdateAccessTokenClaimsOnRefresh = true,
                 RedirectUris =
                 {
-                    "myapp://"
+                    "myapp://signin-oidc"
                 },
                 PostLogoutRedirectUris =
                 {
-                    "myapp://"
+                    "myapp://signout-callback-oidc"
                 },
                 AllowedScopes =
                 {

@@ -117,7 +117,7 @@ namespace IdentityProvider
 
                 userMgr.AddToRoleAsync(technician, ApplicationRoles.Technician).Wait();
 
-                result = userMgr.AddClaimsAsync(secondlineTech, new Claim[]{
+                result = userMgr.AddClaimsAsync(technician, new Claim[]{
                     new Claim(JwtClaimTypes.Name, "Technician Techniciansson"),
                     new Claim(JwtClaimTypes.GivenName, "Technician"),
                     new Claim(JwtClaimTypes.FamilyName, "Techniciansson"),
