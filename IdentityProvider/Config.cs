@@ -42,7 +42,7 @@ namespace IdentityProvider
             new Client
             {
                 ClientName = "AdminWebApp Client",
-                ClientId = "adminwebappclient",
+                ClientId = "localadminwebappclient",
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
                 UpdateAccessTokenClaimsOnRefresh = true,
