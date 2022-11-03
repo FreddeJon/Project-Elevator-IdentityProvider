@@ -32,7 +32,9 @@ namespace IdentityProvider
             Log.Logger.Error(secretResponse.Value.Value);
 
             var signingCertificate = new X509Certificate2(
-                Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.EphemeralKeySet);
+                Convert.FromBase64String(secretResponse.Value.Value), 
+                (string) null,
+                X509KeyStorageFlags.MachineKeySet);
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
