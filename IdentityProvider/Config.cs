@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace IdentityProvider
 {
@@ -22,7 +23,8 @@ namespace IdentityProvider
                 "projectelevatorapi.fullaccess",
                 "projectelevatorapi.write",
                 "projectelevatorapi.read"
-            }
+            },
+            ApiSecrets = {new Secret("2438a004-d396-4e1b-8ff4-30397a02e51d".ToSha256()) }
         }
         };
 
