@@ -79,11 +79,14 @@ namespace IdentityProvider
                 UpdateAccessTokenClaimsOnRefresh = true,
                 RedirectUris =
                 {
-                    "https://project-elevator.azurewebsites.net/signin-oidc"
+                    "https://project-elevator.azurewebsites.net/signin-oidc",
+                    "https://localhost:7196/signin-oidc"
+
                 },
                 PostLogoutRedirectUris =
                 {
-                    "https://project-elevator.azurewebsites.net/signout-callback-oidc"
+                    "https://project-elevator.azurewebsites.net/signout-callback-oidc",
+                    "https://localhost:7196/signout-callback-oidc"
                 },
 
                 AllowedScopes =
