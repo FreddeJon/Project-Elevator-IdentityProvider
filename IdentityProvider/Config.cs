@@ -16,7 +16,7 @@ namespace IdentityProvider
 
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
-        new("projectelevatorapi", "Project - Elevator API", new []{"role",   IdentityServerConstants.StandardScopes.Profile})
+        new("projectelevatorapi", "Project - Elevator API", new []{"role", IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile})
         {
             Scopes =
             {

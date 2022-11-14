@@ -31,6 +31,10 @@ namespace IdentityProvider
             CreateRole(roleMgr, ApplicationRoles.Technician).Wait();
 
 
+            //CreateUser("Fredrik", "Jonson", userMgr, ApplicationRoles.Admin).Wait();
+            //CreateUser("Gong", "Moonphruk", userMgr, ApplicationRoles.Admin).Wait();
+            CreateUser("Robert", "Jodelsohn", userMgr, ApplicationRoles.Admin).Wait();
+
 
             var admin = userMgr.FindByNameAsync("admin").Result;
             if (admin == null)
@@ -132,6 +136,78 @@ namespace IdentityProvider
             {
                 Log.Debug("Technician already exists");
             }
+            var zzache = userMgr.FindByNameAsync("zzache").Result;
+            if (zzache == null)
+            {
+                zzache = new IdentityUser
+                {
+                    UserName = "zzache",
+                    Email = "zzache@email.com",
+                    EmailConfirmed = true
+                };
+                var result = userMgr.CreateAsync(zzache, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+
+                userMgr.AddToRoleAsync(zzache, ApplicationRoles.Technician).Wait();
+
+                result = userMgr.AddClaimsAsync(zzache, new Claim[]{
+                    new Claim(JwtClaimTypes.Name, "Zacharias Lönnqvist"),
+                    new Claim(JwtClaimTypes.GivenName, "Zacharias"),
+                    new Claim(JwtClaimTypes.FamilyName, "Lönnqvist"),
+                }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+                Log.Debug("Zacharias created");
+            }
+            else
+            {
+                Log.Debug("Technician already exists");
+            }
+        }
+
+        private static Task CreateUser(string firstname, string lastname, UserManager<IdentityUser> userManager,string role)
+        {
+            var user = userManager.FindByNameAsync(firstname).Result;
+            if (user == null)
+            {
+                user = new IdentityUser
+                {
+                    UserName = firstname + "123",
+                    Email = firstname + "@email.com",
+                    EmailConfirmed = true
+                };
+                var result = userManager.CreateAsync(user, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+
+                userManager.AddToRoleAsync(user, role).Wait();
+
+                result = userManager.AddClaimsAsync(user, new Claim[]{
+                    new Claim(JwtClaimTypes.Name, firstname + " " + lastname),
+                    new Claim(JwtClaimTypes.GivenName, firstname),
+                    new Claim(JwtClaimTypes.FamilyName, lastname),
+                }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+                Log.Debug("Zacharias created");
+            }
+            else
+            {
+                Log.Debug("Technician already exists");
+            }
+
+            return Task.CompletedTask;
         }
 
         private static async Task CreateRole(RoleManager<IdentityRole> roleMgr, string roleName)
